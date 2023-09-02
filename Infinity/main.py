@@ -6,16 +6,15 @@ from name import Name, Name_Error
 from phone import Phone
 from birthday import Birthday
 from address_book import AdressBook
-from rich import print
 from rich.table import Table
 from exceptions import PhoneMustBeNumber, BirthdayException, EmailException, Name_Error
-from sort_folder import sort
-from suggest import suggest_command
-from note import note_book
-
+from sorting_folder import sort
+from print_outs import ConsoleUserInterface
 I = 1
 
 address_book = AdressBook()
+
+console_ui = ConsoleUserInterface()
 
 
 def sort_folder_command(args):
@@ -66,17 +65,11 @@ def address_book_commands():
                                "-", "-", 'searching <<< sumple >>> in address book')
     table_address_book.add_row(
         "sort", "-", "-", "-", "-", "-", "Sorting folder in the enetered path")
-    table_address_book.add_row("note", "-", "-", "-", "-", "-",
-                               "Opens Note Book. Use \"help\" inside Note Book to see all commands ")
     table_address_book.add_row(
         "good bye / close / exit", "-", "-", "-", "-", "-", "Exit")
     table_address_book.add_row(
         "help", "-", "-", "-", "-", "-", "Printing table of commands")
     return table_address_book
-
-
-def note_command(args):
-    return note_book()
 
 
 def exit_command(args):
@@ -95,14 +88,11 @@ def show_all_command(args):
 
     n = 10
     k = 1
-
-    if len(args[1]) > 0:
-
+    if args[1]:
         try:
             n = int(args[1][0])
         except ValueError:
-            print(
-                f'\nEnterd number <<< {args[0]} >>> of pages does not represent a valid integer!\nDefault number of records N = {n} is used')
+            return f'\nEnterd number <<< {args[1][0]} >>> of pages does not represent a valid integer!\nDefault number of records N = {n} is used'
 
     for block in address_book.iterator(n):
 
@@ -115,7 +105,7 @@ def show_all_command(args):
         for item in block:
             table.add_row(str(item[0]), str(item[1]), str(
                 item[2]), str(item[3]), str(item[4]))
-        print(table)
+        console_ui.show_commands(table)
         k += 1
 
         if len(block) == n:
@@ -352,9 +342,6 @@ def delete_email_command(args):
 
 
 def no_command(args) -> str:
-    suggest = suggest_command(args[0])
-    if suggest:
-        return f'You made a mistake, maybe you mean "{suggest}"? Try again'
     return 'Unknown command'
 
 
@@ -398,8 +385,7 @@ COMMANDS = {
     delete_record_command: ("delete record", "remove",),
     delete_address_command: ("delete address", "remove address",),
     days_to_birthday_command: ("days to birthday", "dtb",),
-    sort_folder_command: ("sort",),
-    note_command: ("note",)
+    sort_folder_command: ("sort",)
 }
 
 
@@ -446,7 +432,7 @@ def main():
     global I
     if I == 1:
         address_book.load_data()
-        print(address_book_commands())
+        console_ui.show_commands(address_book_commands())
         I += 1
 
     while True:
@@ -457,7 +443,8 @@ def main():
         user_data = get_user_name(user_info)
 
         result = command(user_data)
-        print(result)
+
+        console_ui.show_commands(result)
 
         if command == exit_command:
             break
