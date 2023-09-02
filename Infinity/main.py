@@ -1,17 +1,17 @@
 import re
-from Infinity.record import Record
-from Infinity.email_class import Email
-from Infinity.address_class import Address
-from Infinity.name import Name, Name_Error
-from Infinity.phone import Phone
-from Infinity.birthday import Birthday
-from Infinity.address_book import AdressBook
+from record import Record
+from email_class import Email
+from address_class import Address
+from name import Name, Name_Error
+from phone import Phone
+from birthday import Birthday
+from address_book import AdressBook
 from rich import print
 from rich.table import Table
-from Infinity.exceptions import PhoneMustBeNumber, BirthdayException, EmailException, Name_Error
-from Infinity.sort_folder import sort
-from Infinity.suggest import suggest_command
-from Infinity.note import note_book
+from exceptions import PhoneMustBeNumber, BirthdayException, EmailException, Name_Error
+from sort_folder import sort
+from suggest import suggest_command
+from note import note_book
 
 I = 1
 
@@ -66,8 +66,8 @@ def address_book_commands():
                                "-", "-", 'searching <<< sumple >>> in address book')
     table_address_book.add_row(
         "sort", "-", "-", "-", "-", "-", "Sorting folder in the enetered path")
-    table_address_book.add_row(
-        "note", "-", "-", "-", "-", "-", "Opens Note Book. Use \"help\" inside Note Book to see all commands ")
+    table_address_book.add_row("note", "-", "-", "-", "-", "-",
+                               "Opens Note Book. Use \"help\" inside Note Book to see all commands ")
     table_address_book.add_row(
         "good bye / close / exit", "-", "-", "-", "-", "-", "Exit")
     table_address_book.add_row(
