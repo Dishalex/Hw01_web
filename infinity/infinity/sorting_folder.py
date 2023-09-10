@@ -1,7 +1,6 @@
 import shutil
-import sys
 import uuid
-from clean_folder.normalize import normalize
+from normalize import normalize
 from pathlib import Path
 
 CATEGORIES = {"Pictures": ['.JPEG', '.PNG', '.JPG', '.SVG'],
@@ -118,4 +117,4 @@ def sort():
 
 
 if __name__ == "__main__":
-    print(main())
+    sort()
